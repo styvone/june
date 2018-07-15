@@ -20,7 +20,7 @@
 			// set up scene, camera, renderer
 			var scene = new THREE.Scene();
 			scene.background = new THREE.Color(0xffffff);
-			var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+			var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 10000);
 			var renderer = new THREE.WebGLRenderer();
 			renderer.setSize(window.innerWidth, window.innerHeight);
 			document.body.appendChild(renderer.domElement);
@@ -30,7 +30,7 @@
 			directionalLight.position.set(0, 0, 15);
 			scene.add(directionalLight);
 
-			// set up spinning ball
+			// set up spinning icosahedron
 			var geometry = new THREE.IcosahedronGeometry(5);
 			var material = new THREE.MeshPhongMaterial({color:0x65d9ff});
 			var object = new THREE.Mesh(geometry, material);
@@ -39,7 +39,7 @@
 			// move camera back
 			camera.position.z = 15;
 
-			// audio setup:
+			// positional audio setup:
 			// create audio listener --> add it to the camera
 			var listener = new THREE.AudioListener();
 			camera.add(listener);
@@ -61,25 +61,35 @@
 			// controls setup (for scrolling)
 			var controls = new THREE.TrackballControls(camera, renderer.domElement);
 
-			// audio analyser setup:
+			// audio analysis & animations
 			var data;
 			var audioAnalyser = new THREE.AudioAnalyser(sound, 32);
 
 			function audioUpdate() {
-				controls.update();
 				data = audioAnalyser.getAverageFrequency();
+				if (data >= 100) {
 
-				// FIGURE OUT ANIMATIONS
+				}
+				else if (data > 80 && data <= 90) {
 
+				}
+				else if (data > 70 && data <= 80) {
+
+				}
+				else if (data > 60 && data <= 70) {
+
+				}
+				else {
+
+				}
 			}
 
 			// animate everything
 			var animate = function () {
+				controls.update();
 				audioUpdate();
 				requestAnimationFrame(animate);
 				renderer.render(scene, camera);
-				object.rotation.y += 0.01;
-				object.rotation.z += 0.01;
 			};
 			animate();
 

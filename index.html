@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>june</title>
+		<style>
+			body {
+				margin: 0; 
+			}
+			canvas {
+				width: 100%; 
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<script src="js/three.js"></script>
+		<script src="js/TrackballControls.js"></script>
+		<script>
+			
+			// set up scene, camera, renderer
+			var scene = new THREE.Scene();
+			scene.background = new THREE.Color(0xffffff);
+			var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+			var renderer = new THREE.WebGLRenderer();
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			document.body.appendChild(renderer.domElement);
+
+			// set up directional light from POV
+			var directionalLight = new THREE.DirectionalLight(0xffffff, 0.85);
+			directionalLight.position.set(0, 0, 15);
+			scene.add(directionalLight);
+
+			// set up spinning ball
+			var geometry = new THREE.IcosahedronGeometry(5);
+			var material = new THREE.MeshPhongMaterial({color:0x65d9ff});
+			var object = new THREE.Mesh(geometry, material);
+			scene.add(object);
+
+			// move camera back
+			camera.position.z = 15;
+
+			// audio setup:
+			// create audio listener --> add it to the camera
+			var listener = new THREE.AudioListener();
+			camera.add(listener);
+			// create positional audio object
+			var sound = new THREE.PositionalAudio(listener);
+			// load the music
+			var audioLoader = new THREE.AudioLoader();
+			audioLoader.load(
+				'music/medicine.mp3',
+				function(buffer) {
+					sound.setBuffer(buffer);
+					sound.setRefDistance(20);
+					sound.play();
+				}
+			);
+			// add sound to object
+			object.add(sound);
+
+			// controls setup (for scrolling)
+			var controls = new THREE.TrackballControls(camera, renderer.domElement);
+
+			// audio analyser setup:
+			var data;
+			var audioAnalyser = new THREE.AudioAnalyser(sound, 32);
+
+			function audioUpdate() {
+				controls.update();
+				data = audioAnalyser.getAverageFrequency();
+
+				// FIGURE OUT ANIMATIONS
+
+			}
+
+			// animate everything
+			var animate = function () {
+				audioUpdate();
+				requestAnimationFrame(animate);
+				renderer.render(scene, camera);
+				object.rotation.y += 0.01;
+				object.rotation.z += 0.01;
+			};
+			animate();
+
+		</script>
+	</body>
+</html>

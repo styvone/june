@@ -68,35 +68,35 @@
 				data = audioAnalyser.getAverageFrequency();
 				if (data >= 105) {
 					object.highlight(new THREE.Color(0xff9f95));
-					object.speed = 7;
+					object.speed = 9;
 				}
 				else if (data >= 100 && data < 105) {
 					object.highlight(new THREE.Color(0xE6867C));
-					object.speed = 1;
+					object.speed = 8;
 				}
 				else if (data >= 95 && data < 100) {
 					object.highlight(new THREE.Color(0xCC6C62));
-					object.speed = 1;
+					object.speed = 7;
 				}
 				else if (data >= 90 && data < 95) {
 					object.highlight(new THREE.Color(0xB35349));
-					object.speed = 1;
+					object.speed = 6;
 				}
 				else if (data >= 85 && data < 90) {
 					object.highlight(new THREE.Color(0x99392F));
-					object.speed = 1;
+					object.speed = 5;
 				}
 				else if (data >= 80 && data < 85) {
 					object.highlight(new THREE.Color(0x802016));
-					object.speed = 1;
+					object.speed = 4;
 				}
 				else if (data >= 75 && data < 80) {
 					object.highlight(new THREE.Color(0x660600));
-					object.speed = 1;
+					object.speed = 3;
 				}
 				else if (data >= 70 && data < 75) {
 					object.highlight(new THREE.Color(0x4D0000));
-					object.speed = 1;
+					object.speed = 2;
 				}
 				else if (data >= 65 && data < 70) {
 					object.highlight(new THREE.Color(0x330000));
@@ -104,7 +104,7 @@
 				}
 				else {
 					object.highlight(new THREE.Color(0x000000));
-					object.speed = 1;
+					object.speed = 0;
 				}
 			}
 

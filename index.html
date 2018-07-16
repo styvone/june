@@ -20,7 +20,7 @@
 			
 			// set up scene, camera, renderer
 			var scene = new THREE.Scene();
-			scene.background = new THREE.Color(0xffffff);
+			scene.background = new THREE.Color(0xfffce9);
 			var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 10000);
 			var renderer = new THREE.WebGLRenderer();
 			renderer.setSize(window.innerWidth, window.innerHeight);
@@ -28,16 +28,16 @@
 
 			// set up directional light from POV
 			var directionalLight = new THREE.DirectionalLight(0xffffff, 0.85);
-			directionalLight.position.set(0, 0, 10);
+			directionalLight.position.set(0, 0, 11);
 			scene.add(directionalLight);
 
-			// set up spinning icosahedron
-			var geometry = new THREE.IcosahedronGeometry(5, 5, 5);
-			var object = new ParticleObject(geometry, 0x000000, .05);
+			// set up spinning particle sphere
+			var geometry = new THREE.IcosahedronGeometry(5, 4, 4);
+			var object = new ParticleObject(geometry, 0x000000, .075);
 			scene.add(object.mesh);
 
 			// move camera back
-			camera.position.z = 10;
+			camera.position.z = 11;
 
 			// positional audio setup:
 			// create audio listener --> add it to the camera
@@ -64,23 +64,47 @@
 			// audio analysis & animations
 			var data;
 			var audioAnalyser = new THREE.AudioAnalyser(sound, 32);
-
 			function audioUpdate() {
 				data = audioAnalyser.getAverageFrequency();
-				if (data >= 100) {
-
+				if (data >= 105) {
+					object.highlight(new THREE.Color(0xff9f95));
+					object.speed = 7;
 				}
-				else if (data > 80 && data <= 90) {
-
+				else if (data >= 100 && data < 105) {
+					object.highlight(new THREE.Color(0xE6867C));
+					object.speed = 1;
 				}
-				else if (data > 70 && data <= 80) {
-
+				else if (data >= 95 && data < 100) {
+					object.highlight(new THREE.Color(0xCC6C62));
+					object.speed = 1;
 				}
-				else if (data > 60 && data <= 70) {
-
+				else if (data >= 90 && data < 95) {
+					object.highlight(new THREE.Color(0xB35349));
+					object.speed = 1;
+				}
+				else if (data >= 85 && data < 90) {
+					object.highlight(new THREE.Color(0x99392F));
+					object.speed = 1;
+				}
+				else if (data >= 80 && data < 85) {
+					object.highlight(new THREE.Color(0x802016));
+					object.speed = 1;
+				}
+				else if (data >= 75 && data < 80) {
+					object.highlight(new THREE.Color(0x660600));
+					object.speed = 1;
+				}
+				else if (data >= 70 && data < 75) {
+					object.highlight(new THREE.Color(0x4D0000));
+					object.speed = 1;
+				}
+				else if (data >= 65 && data < 70) {
+					object.highlight(new THREE.Color(0x330000));
+					object.speed = 1;
 				}
 				else {
-
+					object.highlight(new THREE.Color(0x000000));
+					object.speed = 1;
 				}
 			}
 
@@ -90,9 +114,9 @@
 				audioUpdate();
 				requestAnimationFrame(animate);
 				renderer.render(scene, camera);
-				//object.mesh.rotation.y += 0.01;
-				//object.mesh.rotation.z += 0.01;
+				object.spin();
 			};
+
 			animate();
 
 		</script>

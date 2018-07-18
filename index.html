@@ -20,7 +20,7 @@
 			
 			// set up scene, camera, renderer
 			var scene = new THREE.Scene();
-			scene.background = new THREE.Color(0xfffce9);
+			scene.background = new THREE.Color(0xffffff);
 			var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 10000);
 			var renderer = new THREE.WebGLRenderer();
 			renderer.setSize(window.innerWidth, window.innerHeight);
@@ -32,13 +32,13 @@
 			scene.add(directionalLight);
 
 			// set up spinning particle sphere
-			var geometry = new THREE.SphereGeometry(5, 256, 256);
-			var object = new ParticleObject(geometry, 0x000000, .025);
+			var geometry = new THREE.IcosahedronGeometry(5, 5, 5);
+			var object = new ParticleObject(geometry, 0x000000, .05);
 			scene.add(object.mesh);
 
 			// set up outer particle ring
-			var ringGeo = new THREE.RingGeometry(7, 8, 128);
-			var ring = new ParticleObject(ringGeo, 0x000000, .1);
+			var ringGeo = new THREE.RingGeometry(7, 8, 128, 10);
+			var ring = new ParticleObject(ringGeo, 0x606060, .1);
 			// rotate ring to face user
 			ring.mesh.rotateX(5);
 			scene.add(ring.mesh);
@@ -119,7 +119,7 @@
 					ring.mesh.scale.set(1.02, 1.02, 1.02);
 				}
 				else {
-					object.highlight(new THREE.Color(0x000000));
+					object.highlight(new THREE.Color(0x606060));
 					object.speed = 1;
 					ring.mesh.scale.set(1, 1, 1);
 				}

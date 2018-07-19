@@ -28,7 +28,7 @@
 
 			// set up directional light from POV
 			var directionalLight = new THREE.DirectionalLight(0xffffff, 0.85);
-			directionalLight.position.set(0, 0, 17);
+			directionalLight.position.set(0, 0, 16.5);
 			scene.add(directionalLight);
 
 			// set up spinning particle sphere
@@ -38,13 +38,13 @@
 
 			// set up outer particle ring
 			var ringGeo = new THREE.RingGeometry(7, 8, 128, 10);
-			var ring = new ParticleObject(ringGeo, 0x606060, .1);
+			var ring = new ParticleObject(ringGeo, 0x212121, .1);
 			// rotate ring to face user
 			ring.mesh.rotateX(5);
 			scene.add(ring.mesh);
 
 			// move camera back
-			camera.position.z = 17;
+			camera.position.z = 16.5;
 
 			// positional audio setup:
 			// create audio listener --> add it to the camera
@@ -56,6 +56,7 @@
 			var audioLoader = new THREE.AudioLoader();
 			audioLoader.load(
 				'music/medicine.mp3',
+				//'music/i don\'t wanna waste my time.mp3',
 				function(buffer) {
 					sound.setBuffer(buffer);
 					sound.setRefDistance(20);
@@ -69,10 +70,18 @@
 			var controls = new THREE.TrackballControls(camera, renderer.domElement);
 
 			// audio analysis & animations
+
 			var data;
 			var audioAnalyser = new THREE.AudioAnalyser(sound, 32);
 			function audioUpdate() {
 				data = audioAnalyser.getAverageFrequency();
+
+				//console.log(listener.context.sampleRate);
+				//getBass(listener, audioAnalyser);
+				//getTreble(listener, audioAnalyser);
+				//console.log(getBass(listener, audioAnalyser));
+
+
 				if (data >= 105) {
 					object.highlight(new THREE.Color(0xff9f95));
 					object.speed = 10;

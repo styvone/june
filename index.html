@@ -56,7 +56,6 @@
 			var audioLoader = new THREE.AudioLoader();
 			audioLoader.load(
 				'music/medicine.mp3',
-				//'music/i don\'t wanna waste my time.mp3',
 				function(buffer) {
 					sound.setBuffer(buffer);
 					sound.setRefDistance(20);
@@ -70,18 +69,10 @@
 			var controls = new THREE.TrackballControls(camera, renderer.domElement);
 
 			// audio analysis & animations
-
 			var data;
 			var audioAnalyser = new THREE.AudioAnalyser(sound, 32);
 			function audioUpdate() {
 				data = audioAnalyser.getAverageFrequency();
-
-				//console.log(listener.context.sampleRate);
-				//getBass(listener, audioAnalyser);
-				//getTreble(listener, audioAnalyser);
-				//console.log(getBass(listener, audioAnalyser));
-
-
 				if (data >= 105) {
 					object.highlight(new THREE.Color(0xff9f95));
 					object.speed = 10;

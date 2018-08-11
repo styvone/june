@@ -1,4 +1,6 @@
 # june: prelude
+demo: https://june-prelude.herokuapp.com/
+
 song: "medicine" - joji
 
-demo: https://june-prelude.herokuapp.com/
+made with Three.js

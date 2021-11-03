@@ -74,6 +74,11 @@
 			// add sound to object
 			object.mesh.add(sound);
 
+			// need to resume() to play in Chrome
+			window.addEventListener('click', () => {
+				sound.play();
+			});
+
 			// controls setup (for scrolling)
 			var controls = new THREE.TrackballControls(camera, renderer.domElement);
 

@@ -1,5 +1,5 @@
 # june: prelude
-demo: https://june-prelude.herokuapp.com/
+run `npx vite` in terminal
 
 song: "medicine" - joji
 

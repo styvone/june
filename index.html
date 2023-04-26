@@ -56,26 +56,42 @@
 			camera.position.z = 16.5;
 
 			// positional audio setup:
-			// create audio listener --> add it to the camera
-			var listener = new THREE.AudioListener();
-			camera.add(listener);
-			// create positional audio object
-			var sound = new THREE.PositionalAudio(listener);
-			// load the music
-			var audioLoader = new THREE.AudioLoader();
-			audioLoader.load(
-				'music/medicine.mp3',
-				function(buffer) {
-					sound.setBuffer(buffer);
-					sound.setRefDistance(20);
-					sound.play();
-				}
-			);
-			// add sound to object
-			object.mesh.add(sound);
+			var setUpAudioOnce = false;
+			var audioReady = false;
+
+			var audioAnalyser;
+			var sound;
+
+			function audioSetUp() {
+				// create audio listener --> add it to the camera
+				var listener = new THREE.AudioListener();
+				camera.add(listener);
+				// create positional audio object
+				sound = new THREE.PositionalAudio(listener);
+				// load the music
+				var audioLoader = new THREE.AudioLoader();
+				audioLoader.load(
+					'music/medicine.mp3',
+					function(buffer) {
+						sound.setBuffer(buffer);
+						sound.setRefDistance(20);
+						sound.play();
+					}
+				);
+				// add sound to object
+				object.mesh.add(sound);
+
+				audioAnalyser = new THREE.AudioAnalyser(sound, 32);
+				audioReady = true;
+				audioLoader.context.resume();
+			}
 
 			// need to resume() to play in Chrome
 			window.addEventListener('click', () => {
+				if (!setUpAudioOnce) {
+					setUpAudioOnce = true;
+					audioSetUp();
+				}
 				sound.play();
 			});
 
@@ -84,7 +100,7 @@
 
 			// audio analysis & animations
 			var data;
-			var audioAnalyser = new THREE.AudioAnalyser(sound, 32);
+
 			function audioUpdate() {
 				data = audioAnalyser.getAverageFrequency();
 				if (data >= 105) {
@@ -142,7 +158,9 @@
 			// animate everything
 			var animate = function () {
 				controls.update();
-				audioUpdate();
+				if (audioReady) {
+					audioUpdate();
+				}
 				requestAnimationFrame(animate);
 				renderer.render(scene, camera);
 				object.spin();
